@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>API Docs — Сервис создания ссылок для парсинга</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0c10;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #eef2ff;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* градиентный фон */
+        .bg-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15), transparent 60%);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* header */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #c084fc, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+        .logo p {
+            font-size: 0.85rem;
+            color: #8b9bcf;
+            margin-top: 4px;
+        }
+        .badge {
+            background: rgba(59,130,246,0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.4rem 1rem;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(59,130,246,0.4);
+        }
+        .badge i {
+            margin-right: 6px;
+            color: #3b82f6;
+        }
+
+        /* navigation cards */
+        .nav-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 2rem;
+            padding: 0.8rem 1.2rem;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(59,130,246,0.2);
+        }
+        .nav-link {
+            color: #b9c7f0;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        .nav-link i {
+            margin-right: 6px;
+            font-size: 0.85rem;
+        }
+        .nav-link:hover {
+            background: #1e293b;
+            color: white;
+        }
+
+        /* секции */
+        .section {
+            background: #0f172ad9;
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            transition: box-shadow 0.2s;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .section:hover {
+            border-color: #3b82f680;
+        }
+        .section h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section h2 i {
+            color: #3b82f6;
+            font-size: 1.6rem;
+        }
+        .section h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.8rem 0;
+            color: #cbd5ff;
+        }
+
+        /* таблицы */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1.2rem 0;
+            border-radius: 1rem;
+            background: #0a0f1a;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        th {
+            text-align: left;
+            padding: 1rem 1rem;
+            background: #111827;
+            color: #b9c7ff;
+            font-weight: 600;
+        }
+        td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid #1e293b;
+            color: #e2e8f0;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .badge-method {
+            background: #0f2b3d;
+            color: #3b82f6;
+            font-family: monospace;
+            font-weight: bold;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+
+        .param-required {
+            color: #f97316;
+            font-weight: 600;
+        }
+        .param-optional {
+            color: #94a3b8;
+        }
+        code {
+            background: #111827;
+            padding: 0.2rem 0.4rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #f1f5f9;
+        }
+        pre {
+            background: #030712;
+            padding: 1.2rem;
+            border-radius: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #1e293b;
+            font-size: 0.85rem;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            color: #e2e8f0;
+        }
+
+        .error-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+        .error-item {
+            background: #111827;
+            border-left: 3px solid #ef4444;
+            padding: 0.7rem 1rem;
+            border-radius: 0.8rem;
+            font-family: monospace;
+            font-size: 0.8rem;
+        }
+        .error-code {
+            color: #f97316;
+            font-weight: 700;
+        }
+
+        .endpoint-url {
+            background: #0a0f1f;
+            padding: 0.7rem 1.2rem;
+            border-radius: 1rem;
+            font-family: monospace;
+            font-size: 1rem;
+            border: 1px solid #2d3a5e;
+            display: inline-block;
+        }
+
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #5b6e9c;
+            border-top: 1px solid #1e293b;
+            padding-top: 2rem;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 1rem;
+            }
+            .section {
+                padding: 1.2rem;
+            }
+            .header {
+                flex-direction: column;
+                align-items: start;
+                gap: 1rem;
+            }
+        }
+        .highlight {
+            color: #38bdf8;
+        }
+        .note {
+            background: #1e293b80;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <h1><i class="fas fa-link"></i> ParseLink API</h1>
+            <p>Генерация ссылок • Парсинг объявлений • Защита через White IP</p>
+        </div>
+        <div class="badge"><i class="fas fa-shield-alt"></i> v1.0 · Stable</div>
+    </div>
+
+    <div class="nav-cards">
+        <a href="#endpoint" class="nav-link"><i class="fas fa-plug"></i> Эндпоинт</a>
+        <a href="#params" class="nav-link"><i class="fas fa-code-branch"></i> Параметры</a>
+        <a href="#response" class="nav-link"><i class="fas fa-check-circle"></i> Ответы</a>
+        <a href="#errors" class="nav-link"><i class="fas fa-exclamation-triangle"></i> Ошибки</a>
+        <a href="#examples" class="nav-link"><i class="fas fa-laptop-code"></i> Примеры</a>
+    </div>
+
+    <!-- БЫСТРЫЙ СТАРТ -->
+    <div class="section" id="start">
+        <h2><i class="fas fa-rocket"></i> Быстрый старт</h2>
+        <div class="note">
+            <i class="fas fa-info-circle"></i> Перед отправкой запросов обязательно добавьте ваш IP-адрес в белый список через Telegram-бота (меню бота).
+        </div>
+        <ol style="margin-left: 1.5rem; margin-bottom: 0.5rem; gap: 0.5rem; display: flex; flex-direction: column;">
+            <li>📌 Получите <code>Authorization TOKEN</code> в боте</li>
+            <li>🌐 Добавьте IP в white list (команда /addip в боте)</li>
+            <li>📨 Отправьте POST-запрос на <code>/createhrefparse</code> с JSON-телом</li>
+        </ol>
+        <div class="endpoint-url"><i class="fas fa-globe"></i> Базовый URL: <strong>https://parsapilnk2.cfd</strong></div>
+    </div>
+
+    <!-- ЭНДПОИНТ -->
+    <div class="section" id="endpoint">
+        <h2><i class="fas fa-map-pin"></i> Эндпоинт</h2>
+        <table style="width: auto;">
+            <tr><td style="background: none;"><span class="badge-method">POST</span></td><td><code>/createhrefparse</code></td></tr>
+            <tr><td style="background: none;">Тип данных:</td><td><code>application/json</code></td></tr>
+            <tr><td style="background: none;">Авторизация:</td><td>Header <code>Authorization: YOUR_TOKEN</code></td></tr>
+        </table>
+    </div>
+
+    <!-- ЗАГОЛОВКИ -->
+    <div class="section">
+        <h2><i class="fas fa-heading"></i> Заголовки запроса</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>Header</th><th>Значение</th><th>Обязательный</th></tr></thead>
+                <tbody>
+                    <tr><td><code>Authorization</code></td><td>Ваш API-ключ (токен)</td><td class="param-required">✅ Да</td></tr>
+                    <tr><td><code>Content-Type</code></td><td><code>application/json</code></td><td class="param-required">✅ Да</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ПАРАМЕТРЫ -->
+    <div class="section" id="params">
+        <h2><i class="fas fa-cubes"></i> Параметры запроса (JSON body)</h2>
+        <h3>🔹 Обязательные</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>Параметр</th><th>Тип</th><th>Описание</th><th>Макс. длина</th></tr></thead>
+                <tbody>
+                    <tr><td><code>chatID</code></td><td>string</td><td>Chat ID пользователя Telegram (привязка ссылки)</td><td>—</td></tr>
+                    <tr><td><code>numberphone</code></td><td>string</td><td>Номер телефона для СМС-проверки</td><td>20 символов</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>🔸 Необязательные (если нет шаблона в боте)</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>Параметр</th><th>Описание</th><th>Допустимые значения</th></tr></thead>
+                <tbody>
+                    <tr><td><code>country</code></td><td>Страна площадки</td><td><code>PL</code></td></tr>
+                    <tr><td><code>platforms</code></td><td>Платформа</td><td><code>OLX, Vinted, Inpost, Allegro, DPD, Poczta Polska</code></td></tr>
+                    <tr><td><code>fiouser</code></td><td>Покупатель</td><td>строка</td></tr>
+                    <tr><td><code>addrdelivery</code></td><td>Адрес доставки</td><td>строка</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>🔗 Ссылка для парсинга (либо готовые данные)</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>Параметр</th><th>Описание</th><th>Лимит</th></tr></thead>
+                <tbody>
+                    <tr><td><code>hrefparse</code></td><td>Ссылка на объявление для парсинга</td><td>≤150 символов</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="note">
+            <i class="fas fa-lightbulb"></i> Если ссылка <code>hrefparse</code> отсутствует, вы можете передать готовые данные: <code>price</code>, <code>title</code> (≤150), <code>img</code> (≤150).
+        </div>
+    </div>
+
+    <!-- УСПЕШНЫЙ ОТВЕТ -->
+    <div class="section" id="response">
+        <h2><i class="fas fa-check-double"></i> Успешный ответ</h2>
+        <pre><code>{
+  "action": "OK",
+  "shorthref": "https://google.com",
+  "desc": "Ссылка успешно создана",
+  "subdomains": "example,example2",
+  "idadvert": "123456789"
+}</code></pre>
+        <div class="table-wrapper">
+            <table>
+                <tr><td><code>action</code></td><td>Статус выполнения (OK — успех)</td></tr>
+                <tr><td><code>shorthref</code></td><td>Короткая ссылка на сайт</td></tr>
+                <tr><td><code>desc</code></td><td>Описание результата</td></tr>
+                <tr><td><code>subdomains</code></td><td>Список поддоменов (если есть)</td></tr>
+                <tr><td><code>idadvert</code></td><td>Идентификатор объявления</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- ОШИБКИ -->
+    <div class="section" id="errors">
+        <h2><i class="fas fa-bug"></i> Возвращаемые ошибки</h2>
+        <p>Все ошибки приходят в формате JSON с полями <code>action</code> и <code>desc</code>.</p>
+        <div class="error-grid">
+            <div class="error-item"><span class="error-code">AUTH_TOKEN_UNDEFINED</span> — отсутствует API ключ в заголовке</div>
+            <div class="error-item"><span class="error-code">API_TOKEN_ERROR</span> — неверный API ключ</div>
+            <div class="error-item"><span class="error-code">API_NOT_CREATED</span> — ключ не создан</div>
+            <div class="error-item"><span class="error-code">API_BLOCKED</span> — доступ заблокирован</div>
+            <div class="error-item"><span class="error-code">UNDEFINED_WHITE_IP_LIST</span> — IP не добавлен в white list</div>
+            <div class="error-item"><span class="error-code">IP_UNDEFINED_WHITE_LIST</span> — конкретный IP не найден</div>
+            <div class="error-item"><span class="error-code">CREATE_HREF_UNAVAILABLE</span> — создание ссылок временно недоступно</div>
+            <div class="error-item"><span class="error-code">UNDEFINED_CHATID_WORKER</span> — отсутствует chatID</div>
+            <div class="error-item"><span class="error-code">UNDEFINED_HREF</span> — нет ссылки для парсинга</div>
+            <div class="error-item"><span class="error-code">ERROR_VALIDATE_URL</span> — невалидный формат ссылки</div>
+            <div class="error-item"><span class="error-code">UNDEFINED_NUMBER_PHONE</span> — нет номера телефона</div>
+            <div class="error-item"><span class="error-code">ERROR_PARSING</span> — ошибка парсера (удалено/отказ площадки)</div>
+            <div class="error-item"><span class="error-code">NUMBER_PHONE_ALREADY_USE</span> — номер уже был использован</div>
+            <div class="error-item"><span class="error-code">USER_UNDEFINED</span> — пользователь не найден в боте</div>
+            <div class="error-item"><span class="error-code">TEMPLATE_UNDEFINED</span> — нет шаблона и не переданы необязательные поля</div>
+            <div class="error-item"><span class="error-code">DOMAINS_UNDEFINED</span> — нет доменов для данной площадки</div>
+            <div class="error-item"><span class="error-code">ERROR_VALID_DATA</span> — ошибка в передаваемых данных</div>
+            <div class="error-item"><span class="error-code">ERROR_SERVER_BOT</span> — внутренняя ошибка сервера</div>
+            <div class="error-item"><span class="error-code">API_STOP</span> — API временно остановлено</div>
+        </div>
+    </div>
+
+    <!-- ПРИМЕРЫ КОДА -->
+    <div class="section" id="examples">
+        <h2><i class="fas fa-terminal"></i> Примеры кода</h2>
+        
+        <h3>🐍 Python (requests)</h3>
+        <pre><code>import requests, json
+
+url = "https://parsapilnk2.cfd/linkcreate"
+payload = {
+    "chatID": "1234567890",
+    "country": "PL",
+    "platforms": "OLX",
+    "hrefparse": "https://www.olx.pl/d/oferta/rower-trailowy...",
+    "numberphone": "1389847248"
+}
+headers = {
+    "Authorization": "YOUR_TOKEN",
+    "Content-Type": "application/json"
+}
+response = requests.post(url, json=payload, headers=headers)
+print(response.text)</code></pre>
+
+        <h3>🟢 Node.js (axios)</h3>
+        <pre><code>const axios = require('axios');
+
+const data = {
+  chatID: "1234567890",
+  country: "PL",
+  platforms: "OLX",
+  hrefparse: "https://www.olx.pl/d/oferta/...",
+  numberphone: "1389847248"
+};
+
+axios.post('https://parsapilnk2.cfd/linkcreate', data, {
+  headers: { 'Authorization': 'YOUR_TOKEN', 'Content-Type': 'application/json' }
+})
+.then(res => console.log(res.data))
+.catch(err => console.error(err));</code></pre>
+
+        <h3>🐚 cURL</h3>
+        <pre><code>curl -X POST https://parsapilnk2.cfd/linkcreate \
+  -H "Authorization: YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "chatID": "1234567890",
+    "country": "PL",
+    "platforms": "OLX",
+    "hrefparse": "https://www.olx.pl/d/oferta/rower...",
+    "numberphone": "1389847248"
+  }'</code></pre>
+
+        <div class="note">
+            <i class="fas fa-gem"></i> <strong>Важно:</strong> Если у пользователя в боте уже создан шаблон, поля <code>country</code>, <code>platforms</code>, <code>fiouser</code>, <code>addrdelivery</code> можно не передавать. <br>
+            Вместо ссылки <code>hrefparse</code> можно использовать альтернативные поля: <code>price</code>, <code>title</code>, <code>img</code>.
+        </div>
+    </div>
+
+    <!-- Дополнительная информация / best practice -->
+    <div class="section">
+        <h2><i class="fas fa-shield-heart"></i> Правила безопасности и лимиты</h2>
+        <ul style="margin-left: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem;">
+            <li><i class="fas fa-check-circle" style="color:#22c55e;"></i> Перед запросом обязательно добавьте IP в <strong>white list</strong> через телеграм-бота.</li>
+            <li><i class="fas fa-link"></i> Максимальная длина ссылки <code>hrefparse</code> / <code>title</code> / <code>img</code> — <strong>150 символов</strong>.</li>
+            <li><i class="fas fa-phone"></i> Номер телефона — не более <strong>20 символов</strong>.</li>
+            <li><i class="fas fa-user-check"></i> Если номер уже использовался для верификации — ошибка <code>NUMBER_PHONE_ALREADY_USE</code>.</li>
+            <li><i class="fas fa-database"></i> При отсутствии обязательных полей и шаблона — ошибка <code>TEMPLATE_UNDEFINED</code>.</li>
+        </ul>
+        <div style="margin-top: 1rem; background: #0a0f1a; border-radius: 1rem; padding: 1rem;">
+            <i class="fas fa-quote-left" style="color:#3b82f6; margin-right: 8px;"></i> 
+            Всегда проверяйте поле <code>action</code> в ответе: <strong>"OK"</strong> — успех, иначе обработайте ошибку по <code>desc</code>.
+        </div>
+    </div>
+
+    <footer>
+        <i class="fas fa-headset"></i> Поддержка через Telegram-бота • <i class="fas fa-sync-alt"></i> Актуальная версия API 1.0<br>
+        🔐 Регулярно обновляйте API-ключ и контролируйте white list
+    </footer>
+</div>
+</body>
+</html>
