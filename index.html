@@ -338,7 +338,6 @@
                 <thead><tr><th>Параметр</th><th>Тип</th><th>Описание</th><th>Макс. длина</th></tr></thead>
                 <tbody>
                     <tr><td><code>chatID</code></td><td>string</td><td>Chat ID пользователя Telegram (привязка ссылки)</td><td>—</td></tr>
-                    <tr><td><code>numberphone</code></td><td>string</td><td>Номер телефона для СМС-проверки</td><td>20 символов</td></tr>
                 </tbody>
             </table>
         </div>
@@ -348,6 +347,7 @@
             <table>
                 <thead><tr><th>Параметр</th><th>Описание</th><th>Допустимые значения</th></tr></thead>
                 <tbody>
+                    <tr><td><code>numberphone</code></td><td>string</td><td>Номер телефона для СМС-проверки</td><td>20 символов</td></tr>
                     <tr><td><code>country</code></td><td>Страна площадки</td><td><code>PL</code></td></tr>
                     <tr><td><code>platforms</code></td><td>Платформа</td><td><code>OLX, Vinted, Inpost, Allegro, DPD, Poczta Polska</code></td></tr>
                     <tr><td><code>fiouser</code></td><td>Покупатель</td><td>строка</td></tr>
@@ -375,17 +375,15 @@
         <h2><i class="fas fa-check-double"></i> Успешный ответ</h2>
         <pre><code>{
   "action": "OK",
-  "shorthref": "https://google.com",
+  "shorthref": "https://example.com",
   "desc": "Ссылка успешно создана",
-  "subdomains": "example,example2",
-  "idadvert": "123456789"
+  "idadvert": "sovi351lvxz"
 }</code></pre>
         <div class="table-wrapper">
             <table>
                 <tr><td><code>action</code></td><td>Статус выполнения (OK — успех)</td></tr>
                 <tr><td><code>shorthref</code></td><td>Короткая ссылка на сайт</td></tr>
                 <tr><td><code>desc</code></td><td>Описание результата</td></tr>
-                <tr><td><code>subdomains</code></td><td>Список поддоменов (если есть)</td></tr>
                 <tr><td><code>idadvert</code></td><td>Идентификатор объявления</td></tr>
             </table>
         </div>
@@ -427,11 +425,11 @@
 
 url = "https://api.flytmbot.top/linkcreate"
 payload = {
-    "chatID": "1234567890",
+    "chatID": "0000",
     "country": "PL",
     "platforms": "OLX",
     "hrefparse": "https://www.olx.pl/d/oferta/rower-trailowy...",
-    "numberphone": "1389847248"
+    "numberphone": "00000"
 }
 headers = {
     "Authorization": "YOUR_TOKEN",
@@ -444,11 +442,11 @@ print(response.text)</code></pre>
         <pre><code>const axios = require('axios');
 
 const data = {
-  chatID: "1234567890",
+  chatID: "000000",
   country: "PL",
   platforms: "OLX",
   hrefparse: "https://www.olx.pl/d/oferta/...",
-  numberphone: "1389847248"
+  numberphone: "00000"
 };
 
 axios.post('https://api.flytmbot.top/linkcreate', data, {
@@ -462,11 +460,11 @@ axios.post('https://api.flytmbot.top/linkcreate', data, {
   -H "Authorization: YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "chatID": "1234567890",
+    "chatID": "000000",
     "country": "PL",
     "platforms": "OLX",
     "hrefparse": "https://www.olx.pl/d/oferta/rower...",
-    "numberphone": "1389847248"
+    "numberphone": "000000"
   }'</code></pre>
 
         <div class="note">
