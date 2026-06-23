@@ -302,7 +302,7 @@
             <li>🌐 Добавьте IP в white list (команда /addip в боте)</li>
             <li>📨 Отправьте POST-запрос на <code>/linkcreate</code> с JSON-телом</li>
         </ol>
-        <div class="endpoint-url"><i class="fas fa-globe"></i> Базовый URL: <strong>https://parsapilnk2.cfd</strong></div>
+        <div class="endpoint-url"><i class="fas fa-globe"></i> Базовый URL: <strong>https://api.flytmbot.top</strong></div>
     </div>
 
     <!-- ЭНДПОИНТ -->
@@ -425,7 +425,7 @@
         <h3>🐍 Python (requests)</h3>
         <pre><code>import requests, json
 
-url = "https://parsapilnk2.cfd/linkcreate"
+url = "https://api.flytmbot.top/linkcreate"
 payload = {
     "chatID": "1234567890",
     "country": "PL",
@@ -451,14 +451,14 @@ const data = {
   numberphone: "1389847248"
 };
 
-axios.post('https://parsapilnk2.cfd/linkcreate', data, {
+axios.post('https://api.flytmbot.top/linkcreate', data, {
   headers: { 'Authorization': 'YOUR_TOKEN', 'Content-Type': 'application/json' }
 })
 .then(res => console.log(res.data))
 .catch(err => console.error(err));</code></pre>
 
         <h3>🐚 cURL</h3>
-        <pre><code>curl -X POST https://parsapilnk2.cfd/linkcreate \
+        <pre><code>curl -X POST https://api.flytmbot.top/linkcreate \
   -H "Authorization: YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
