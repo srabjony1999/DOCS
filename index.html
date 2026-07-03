@@ -299,7 +299,7 @@
         </div>
         <ol style="margin-left: 1.5rem; margin-bottom: 0.5rem; gap: 0.5rem; display: flex; flex-direction: column;">
             <li>📌 Получите <code>Authorization TOKEN</code> в боте</li>
-            <li>🌐 Добавьте IP в white list (команда /addip в боте)</li>
+            <li>🌐 Добавьте IP в white list в боте</li>
             <li>📨 Отправьте POST-запрос на <code>/linkcreate</code> с JSON-телом</li>
         </ol>
         <div class="endpoint-url"><i class="fas fa-globe"></i> Базовый URL: <strong>https://api.flytmbot.top</strong></div>
@@ -377,6 +377,7 @@
   "action": "OK",
   "shorthref": "https://example.com",
   "desc": "Ссылка успешно создана",
+"subdomains": "sub1,sub2,sub3",
   "idadvert": "sovi351lvxz"
 }</code></pre>
         <div class="table-wrapper">
@@ -384,6 +385,7 @@
                 <tr><td><code>action</code></td><td>Статус выполнения (OK — успех)</td></tr>
                 <tr><td><code>shorthref</code></td><td>Короткая ссылка на сайт</td></tr>
                 <tr><td><code>desc</code></td><td>Описание результата</td></tr>
+                <tr><td><code>subdomains</code></td><td>Список поддоменов, если созданы</td></tr>
                 <tr><td><code>idadvert</code></td><td>Идентификатор объявления</td></tr>
             </table>
         </div>
