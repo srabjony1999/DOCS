@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>API Docs — Сервис создания ссылок для парсинга</title>
+    <title>API Docs — Сервис создания ссылок и отправки почты</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
@@ -278,15 +278,15 @@
     <div class="header">
         <div class="logo">
             <h1><i class="fas fa-link"></i> ParseLink API</h1>
-            <p>Генерация ссылок • Парсинг объявлений • Защита через White IP</p>
+            <p>Генерация ссылок • Парсинг объявлений • Отправка Email • Защита через White IP</p>
         </div>
         <div class="badge"><i class="fas fa-shield-alt"></i> v1.0 · Stable</div>
     </div>
 
     <div class="nav-cards">
-        <a href="#endpoint" class="nav-link"><i class="fas fa-plug"></i> Эндпоинт</a>
-        <a href="#params" class="nav-link"><i class="fas fa-code-branch"></i> Параметры</a>
-        <a href="#response" class="nav-link"><i class="fas fa-check-circle"></i> Ответы</a>
+        <a href="#start" class="nav-link"><i class="fas fa-rocket"></i> Быстрый старт</a>
+        <a href="#endpoint-linkcreate" class="nav-link"><i class="fas fa-plug"></i> /linkcreate</a>
+        <a href="#endpoint-sendemail" class="nav-link"><i class="fas fa-envelope"></i> /sendemail</a>
         <a href="#errors" class="nav-link"><i class="fas fa-exclamation-triangle"></i> Ошибки</a>
         <a href="#examples" class="nav-link"><i class="fas fa-laptop-code"></i> Примеры</a>
     </div>
@@ -300,14 +300,14 @@
         <ol style="margin-left: 1.5rem; margin-bottom: 0.5rem; gap: 0.5rem; display: flex; flex-direction: column;">
             <li>📌 Получите <code>Authorization TOKEN</code> в боте</li>
             <li>🌐 Добавьте IP в white list в боте</li>
-            <li>📨 Отправьте POST-запрос на <code>/linkcreate</code> с JSON-телом</li>
+            <li>📨 Отправьте POST-запрос на <code>/linkcreate</code> для генерации ссылки или на <code>/sendemail</code> для отправки письма</li>
         </ol>
         <div class="endpoint-url"><i class="fas fa-globe"></i> Базовый URL: <strong>https://api.flytmbot.top</strong></div>
     </div>
 
-    <!-- ЭНДПОИНТ -->
-    <div class="section" id="endpoint">
-        <h2><i class="fas fa-map-pin"></i> Эндпоинт</h2>
+    <!-- ==================== ЭНДПОИНТ /linkcreate ==================== -->
+    <div class="section" id="endpoint-linkcreate">
+        <h2><i class="fas fa-map-pin"></i> Эндпоинт: Создание ссылки</h2>
         <table style="width: auto;">
             <tr><td style="background: none;"><span class="badge-method">POST</span></td><td><code>/linkcreate</code></td></tr>
             <tr><td style="background: none;">Тип данных:</td><td><code>application/json</code></td></tr>
@@ -315,9 +315,9 @@
         </table>
     </div>
 
-    <!-- ЗАГОЛОВКИ -->
+    <!-- ЗАГОЛОВКИ /linkcreate -->
     <div class="section">
-        <h2><i class="fas fa-heading"></i> Заголовки запроса</h2>
+        <h2><i class="fas fa-heading"></i> Заголовки запроса для /linkcreate</h2>
         <div class="table-wrapper">
             <table>
                 <thead><tr><th>Header</th><th>Значение</th><th>Обязательный</th></tr></thead>
@@ -329,9 +329,9 @@
         </div>
     </div>
 
-    <!-- ПАРАМЕТРЫ -->
-    <div class="section" id="params">
-        <h2><i class="fas fa-cubes"></i> Параметры запроса (JSON body)</h2>
+    <!-- ПАРАМЕТРЫ /linkcreate -->
+    <div class="section" id="params-linkcreate">
+        <h2><i class="fas fa-cubes"></i> Параметры запроса /linkcreate (JSON body)</h2>
         <h3>🔹 Обязательные</h3>
         <div class="table-wrapper">
             <table>
@@ -370,14 +370,14 @@
         </div>
     </div>
 
-    <!-- УСПЕШНЫЙ ОТВЕТ -->
-    <div class="section" id="response">
-        <h2><i class="fas fa-check-double"></i> Успешный ответ</h2>
+    <!-- УСПЕШНЫЙ ОТВЕТ /linkcreate -->
+    <div class="section" id="response-linkcreate">
+        <h2><i class="fas fa-check-double"></i> Успешный ответ /linkcreate</h2>
         <pre><code>{
   "action": "OK",
   "shorthref": "https://example.com",
   "desc": "Ссылка успешно создана",
-"subdomains": "sub1,sub2,sub3",
+  "subdomains": "sub1,sub2,sub3",
   "idadvert": "sovi351lvxz"
 }</code></pre>
         <div class="table-wrapper">
@@ -391,30 +391,117 @@
         </div>
     </div>
 
-    <!-- ОШИБКИ -->
+    <!-- ==================== ЭНДПОИНТ /sendemail ==================== -->
+    <div class="section" id="endpoint-sendemail">
+        <h2><i class="fas fa-envelope-open-text"></i> Эндпоинт: Отправка почты</h2>
+        <table style="width: auto;">
+            <tr><td style="background: none;"><span class="badge-method">POST</span></td><td><code>/sendemail</code></td></tr>
+            <tr><td style="background: none;">Тип данных:</td><td><code>application/json</code></td></tr>
+            <tr><td style="background: none;">Авторизация:</td><td>Header <code>Authorization: YOUR_TOKEN</code></td></tr>
+        </table>
+        <div class="note" style="margin-top: 1rem;">
+            <i class="fas fa-info-circle"></i> Этот эндпоинт инициирует отправку письма.
+        </div>
+    </div>
+
+    <!-- ЗАГОЛОВКИ /sendemail -->
+    <div class="section">
+        <h2><i class="fas fa-heading"></i> Заголовки запроса для /sendemail</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>Header</th><th>Значение</th><th>Обязательный</th></tr></thead>
+                <tbody>
+                    <tr><td><code>Authorization</code></td><td>Ваш API-ключ (токен)</td><td class="param-required">✅ Да</td></tr>
+                    <tr><td><code>Content-Type</code></td><td><code>application/json</code></td><td class="param-required">✅ Да</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ПАРАМЕТРЫ /sendemail -->
+    <div class="section" id="params-sendemail">
+        <h2><i class="fas fa-cubes"></i> Параметры запроса /sendemail (JSON body)</h2>
+        <h3>🔹 Обязательные параметры</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead><tr><th>Параметр</th><th>Тип</th><th>Описание</th></tr></thead>
+                <tbody>
+                    <tr><td><code>country</code></td><td>string</td><td>Страна площадки (например, <code>PL</code>)</td></tr>
+                    <tr><td><code>platforms</code></td><td>string</td><td>Название платформы (<code>OLX</code>, <code>Vinted</code>, <code>Allegro</code> и др.)</td></tr>
+                    <tr><td><code>getmeails</code></td><td>string</td><td>Email получателя</td></tr>
+                    <tr><td><code>href</code></td><td>string</td><td>Короткая ссылка на объявление</td></tr>
+                    <tr><td><code>chatid</code></td><td>string</td><td>Chat ID пользователя в Telegram</td></tr>
+                    <tr><td><code>idAdvert</code></td><td>string</td><td>Идентификатор объявления (должен существовать в базе)</td></tr>
+                    <tr><td><code>username</code></td><td>string</td><td>Имя пользователя</td></tr>
+                    <tr><td><code>product_name</code></td><td>string</td><td>Название товара</td></tr>
+                    <tr><td><code>fiobuyer</code></td><td>string</td><td>ФИО покупателя</td></tr>
+                    <tr><td><code>typeEMAIL</code></td><td>string</td><td>Тип/название почтового сервиса для отправки (список доступных сервисов смотрите в боте)</td></tr>
+                    <tr><td><code>addrdelivery</code></td><td>string</td><td>Адрес доставки</td></tr>
+                    <tr><td><code>price</code></td><td>string</td><td>Цена товара</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- УСПЕШНЫЙ ОТВЕТ /sendemail -->
+    <div class="section" id="response-sendemail">
+        <h2><i class="fas fa-check-double"></i> Успешный ответ /sendemail</h2>
+        <pre><code>{
+  "action": "OK",
+  "desc": "Почта отправлена успешно"
+}</code></pre>
+        <p>При успехе запись об отправке сохраняется в базу данных.</p>
+    </div>
+
+    <!-- ОШИБКИ (объединенные) -->
     <div class="section" id="errors">
         <h2><i class="fas fa-bug"></i> Возвращаемые ошибки</h2>
-        <p>Все ошибки приходят в формате JSON с полями <code>action</code> и <code>desc</code>.</p>
+        <p>Все ошибки приходят в формате JSON с полями <code>action</code> и <code>desc</code>. Ниже представлен полный список возможных кодов ошибок для всех эндпоинтов.</p>
+        
+        <h3>🔒 Ошибки авторизации и доступа</h3>
         <div class="error-grid">
             <div class="error-item"><span class="error-code">AUTH_TOKEN_UNDEFINED</span> — отсутствует API ключ в заголовке</div>
-            <div class="error-item"><span class="error-code">API_TOKEN_ERROR</span> — неверный API ключ</div>
+            <div class="error-item"><span class="error-code">API_TOKEN_ERROR</span> — неверный API ключ или он не соответствует аккаунту</div>
             <div class="error-item"><span class="error-code">API_NOT_CREATED</span> — ключ не создан</div>
             <div class="error-item"><span class="error-code">API_BLOCKED</span> — доступ заблокирован</div>
             <div class="error-item"><span class="error-code">UNDEFINED_WHITE_IP_LIST</span> — IP не добавлен в white list</div>
             <div class="error-item"><span class="error-code">IP_UNDEFINED_WHITE_LIST</span> — конкретный IP не найден</div>
-            <div class="error-item"><span class="error-code">CREATE_HREF_UNAVAILABLE</span> — создание ссылок временно недоступно</div>
+        </div>
+
+        <h3>⚠️ Ошибки валидации и общие ошибки</h3>
+        <div class="error-grid">
+            <div class="error-item"><span class="error-code">ERROR_VALID_DATA</span> — ошибка в передаваемых данных (отсутствуют или некорректны обязательные параметры)</div>
+            <div class="error-item"><span class="error-code">ERROR_EMAIL</span> — указан невалидный email адрес</div>
+            <div class="error-item"><span class="error-code">ERROR_VALIDATE_URL</span> — невалидный формат ссылки</div>
             <div class="error-item"><span class="error-code">UNDEFINED_CHATID_WORKER</span> — отсутствует chatID</div>
             <div class="error-item"><span class="error-code">UNDEFINED_HREF</span> — нет ссылки для парсинга</div>
-            <div class="error-item"><span class="error-code">ERROR_VALIDATE_URL</span> — невалидный формат ссылки</div>
             <div class="error-item"><span class="error-code">UNDEFINED_NUMBER_PHONE</span> — нет номера телефона</div>
-            <div class="error-item"><span class="error-code">ERROR_PARSING</span> — ошибка парсера (удалено/отказ площадки)</div>
-            <div class="error-item"><span class="error-code">NUMBER_PHONE_ALREADY_USE</span> — номер уже был использован</div>
             <div class="error-item"><span class="error-code">USER_UNDEFINED</span> — пользователь не найден в боте</div>
             <div class="error-item"><span class="error-code">TEMPLATE_UNDEFINED</span> — нет шаблона и не переданы необязательные поля</div>
             <div class="error-item"><span class="error-code">DOMAINS_UNDEFINED</span> — нет доменов для данной площадки</div>
-            <div class="error-item"><span class="error-code">ERROR_VALID_DATA</span> — ошибка в передаваемых данных</div>
+        </div>
+
+        <h3>📧 Специфичные ошибки эндпоинта /sendemail</h3>
+        <div class="error-grid">
+            <div class="error-item"><span class="error-code">EMAIL_OFF</span> — запрашиваемый почтовый сервис временно не работает</div>
+            <div class="error-item"><span class="error-code">EMAIL_ERROR_ADVERT</span> — объявления с таким idAdvert не существует</div>
+            <div class="error-item"><span class="error-code">EMAIL_ERROR_PLATFORMS</span> — данная площадка не поддерживается для email</div>
+            <div class="error-item"><span class="error-code">EMAIL_ERROR_VALID</span> — почтовый сервис счёл email невалидным</div>
+            <div class="error-item"><span class="error-code">EMAIL_ERROR_FORBID</span> — почтовый сервис ограничил доступ (User access denied)</div>
+            <div class="error-item"><span class="error-code">EMAIL_ERROR_UNAVAILABLE</span> — почтовый сервис временно недоступен или ограничил доступ</div>
+            <div class="error-item"><span class="error-code">EMAIL_ERROR_UNV_OLX</span> — отправка на OLX по данному сервису временно недоступна</div>
+            <div class="error-item"><span class="error-code">EMAIL_ERROR_UNV_DPD</span> — отправка на DPD по данному сервису временно недоступна</div>
+            <div class="error-item"><span class="error-code">EMAIL_ERROR_UNV_INPOST</span> — отправка на InPost по данному сервису временно недоступна</div>
+        </div>
+
+        <h3>🛑 Ошибки сервера и лимитов</h3>
+        <div class="error-grid">
+            <div class="error-item"><span class="error-code">CREATE_HREF_UNAVAILABLE</span> — создание ссылок временно недоступно</div>
+            <div class="error-item"><span class="error-code">ERROR_PARSING</span> — ошибка парсера (удалено/отказ площадки)</div>
+            <div class="error-item"><span class="error-code">NUMBER_PHONE_ALREADY_USE</span> — номер уже был использован</div>
             <div class="error-item"><span class="error-code">ERROR_SERVER_BOT</span> — внутренняя ошибка сервера</div>
             <div class="error-item"><span class="error-code">API_STOP</span> — API временно остановлено</div>
+            <div class="error-item"><span class="error-code">EMAIL_ERROR</span> — техническая ошибка в email сервисе</div>
         </div>
     </div>
 
@@ -422,7 +509,8 @@
     <div class="section" id="examples">
         <h2><i class="fas fa-terminal"></i> Примеры кода</h2>
         
-        <h3>🐍 Python (requests)</h3>
+        <!-- Пример /linkcreate -->
+        <h3>🔗 /linkcreate — Создание ссылки (Python)</h3>
         <pre><code>import requests, json
 
 url = "https://api.flytmbot.top/linkcreate"
@@ -440,39 +528,49 @@ headers = {
 response = requests.post(url, json=payload, headers=headers)
 print(response.text)</code></pre>
 
-        <h3>🟢 Node.js (axios)</h3>
-        <pre><code>const axios = require('axios');
+        <!-- Пример /sendemail -->
+        <h3>📧 /sendemail — Отправка почты (Python)</h3>
+        <pre><code>import requests
 
-const data = {
-  chatID: "000000",
-  country: "PL",
-  platforms: "OLX",
-  hrefparse: "https://www.olx.pl/d/oferta/...",
-  numberphone: "00000"
-};
+url = "https://api.flytmbot.top/sendemail"
+payload = {
+    "country": "PL",
+    "platforms": "OLX",
+    "getmeails": "buyer@example.com",
+    "href": "https://short.link/abc123",
+    "chatid": "8232395184",
+    "idAdvert": "sovi351lvxz",
+    "username": "john_doe",
+    "product_name": "iPhone 15",
+    "fiobuyer": "Jan Kowalski",
+    "price": "1500",
+    "typeEMAIL": "service1",
+    "addrdelivery": "ul. Marszalkowska 1, Warsaw"
+}
+headers = {
+    "Authorization": "YOUR_TOKEN",
+    "Content-Type": "application/json"
+}
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())</code></pre>
 
-axios.post('https://api.flytmbot.top/linkcreate', data, {
-  headers: { 'Authorization': 'YOUR_TOKEN', 'Content-Type': 'application/json' }
-})
-.then(res => console.log(res.data))
-.catch(err => console.error(err));</code></pre>
-
-        <h3>🐚 cURL</h3>
-        <pre><code>curl -X POST https://api.flytmbot.top/linkcreate \
+        <!-- cURL /sendemail -->
+        <h3>🐚 /sendemail — cURL</h3>
+        <pre><code>curl -X POST https://api.flytmbot.top/sendemail \
   -H "Authorization: YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "chatID": "000000",
     "country": "PL",
     "platforms": "OLX",
-    "hrefparse": "https://www.olx.pl/d/oferta/rower...",
-    "numberphone": "000000"
+    "getmeails": "customer@domain.com",
+    "href": "https://short.link/abc",
+    "chatid": "8232395184",
+    "idAdvert": "sovi351lvxz",
+    "username": "user1",
+    "product_name": "Product X",
+    "fiobuyer": "Anna Nowak"
   }'</code></pre>
 
-        <div class="note">
-            <i class="fas fa-gem"></i> <strong>Важно:</strong> Если у пользователя в боте уже создан шаблон, поля <code>country</code>, <code>platforms</code>, <code>fiouser</code>, <code>addrdelivery</code> можно не передавать. <br>
-            Вместо ссылки <code>hrefparse</code> можно использовать альтернативные поля: <code>price</code>, <code>title</code>, <code>img</code>.
-        </div>
     </div>
 
     <!-- Дополнительная информация / best practice -->
@@ -482,8 +580,8 @@ axios.post('https://api.flytmbot.top/linkcreate', data, {
             <li><i class="fas fa-check-circle" style="color:#22c55e;"></i> Перед запросом обязательно добавьте IP в <strong>white list</strong> через телеграм-бота.</li>
             <li><i class="fas fa-link"></i> Максимальная длина ссылки <code>hrefparse</code> / <code>title</code> / <code>img</code> — <strong>150 символов</strong>.</li>
             <li><i class="fas fa-phone"></i> Номер телефона — не более <strong>20 символов</strong>.</li>
-            <li><i class="fas fa-user-check"></i> Если номер уже использовался для верификации — ошибка <code>NUMBER_PHONE_ALREADY_USE</code>.</li>
             <li><i class="fas fa-database"></i> При отсутствии обязательных полей и шаблона — ошибка <code>TEMPLATE_UNDEFINED</code>.</li>
+            <li><i class="fas fa-envelope"></i> Для отправки почты email проходит строгую проверку регулярным выражением, а объявление должно существовать.</li>
         </ul>
         <div style="margin-top: 1rem; background: #0a0f1a; border-radius: 1rem; padding: 1rem;">
             <i class="fas fa-quote-left" style="color:#3b82f6; margin-right: 8px;"></i> 
